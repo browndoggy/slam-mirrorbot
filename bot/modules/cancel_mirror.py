@@ -35,10 +35,9 @@ def cancel_mirror(update, context):
                BotCommands.UnzipMirrorCommand in mirror_message.text:
                 msg1 = "Mirror Already Have Been Cancelled"
                 sendMessage(msg1, context.bot, update)
-                return
             else:
                 sendMessage(msg, context.bot, update)
-                return
+            return
         elif not mirror_message:
             sendMessage(msg, context.bot, update)
             return
@@ -46,6 +45,8 @@ def cancel_mirror(update, context):
         sendMessage("Archival in Progress, You Can't Cancel It.", context.bot, update)
     elif dl.status() == MirrorStatus.STATUS_EXTRACTING:
         sendMessage("Extract in Progress, You Can't Cancel It.", context.bot, update)
+    elif dl.status() == MirrorStatus.STATUS_SPLITTING:
+        sendMessage("Split in Progress, You Can't Cancel It.", context.bot, update)
     else:
         dl.download().cancel_download()
         sleep(3)  # incase of any error with ondownloaderror listener
